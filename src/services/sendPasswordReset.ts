@@ -3,7 +3,7 @@ import logger from "../utils/logger";
 
 const sendPasswordResetEmail = async (to: string, name: string, token: string) => {
   try {
-    await transporter.sendMail({
+    const info = await transporter.sendMail({
       from: "MLOGS <${process.env.EMAIL_USER}>",
       to: to,
       subject: "Account Confirmation",
@@ -93,6 +93,7 @@ const sendPasswordResetEmail = async (to: string, name: string, token: string) =
         </html>
     `
     });
+    logger.info("Password reset email sent successfully", { meta: info });
   } catch (error) {
     logger.error(`Error sending account confirmation email to ${to}`, error);
   }

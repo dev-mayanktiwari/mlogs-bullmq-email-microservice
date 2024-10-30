@@ -14,8 +14,8 @@ import redisConfig from "../config/redisConfig";
 const deadLetterQueueWorker = new Worker(
   deadLetterQueueName,
   async (job) => {
-    const { name } = job.data;
-
+    const { name } = job;
+    logger.info("Job received in Dead Letter Queue", { meta: job.data });
     try {
       if (name === "sendAccountConfirmationEmail") {
         const { email, name, token, code } = job.data;

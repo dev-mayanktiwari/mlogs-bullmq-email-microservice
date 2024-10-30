@@ -3,7 +3,7 @@ import logger from "../utils/logger";
 
 const sendWelcomeEmail = async (name: string, email: string) => {
   try {
-    await transporter.sendMail({
+    const info = await transporter.sendMail({
       from: `MLOGS <${process.env.EMAIL_USER}>`,
       to: email,
       subject: "Welcome to MLOGS!",
@@ -75,6 +75,7 @@ const sendWelcomeEmail = async (name: string, email: string) => {
           </html>
         `
     });
+    logger.info("Welcome email sent successfully", { meta: info });
   } catch (error) {
     logger.error(`Error sending account confirmation email to ${email}`, error);
   }

@@ -12,8 +12,8 @@ import redisConfig from "../config/redisConfig";
 const generalQueueWorker = new Worker(
   generalQueueName,
   async (job) => {
-    const { name } = job.data;
-
+    const { name } = job;
+    logger.info("Job received in General Queue", { meta: job.data });
     try {
       if (name === sendAccountConfirmationJobName) {
         const { email, name, token, code } = job.data;

@@ -3,7 +3,7 @@ import logger from "../utils/logger";
 
 const sendAdminNotification = async (to: string, failedEmail: string, errorMessage: string) => {
   try {
-    await transporter.sendMail({
+    const info = await transporter.sendMail({
       from: `MLOGS <${process.env.EMAIL_USER}>`,
       to: to,
       subject: "Failed Email Notification",
@@ -78,10 +78,10 @@ const sendAdminNotification = async (to: string, failedEmail: string, errorMessa
           </html>
       `
     });
+    logger.info("Admin notification email sent successfully", { meta: info });
   } catch (error) {
     logger.error(`Error sending account admin Notification email to ${to}`, error);
   }
 };
 
 export default sendAdminNotification;
-

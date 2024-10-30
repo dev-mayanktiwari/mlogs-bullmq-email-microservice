@@ -13,13 +13,15 @@ import redisConfig from "../config/redisConfig";
 const passwordQueueWorker = new Worker(
   passwordQueueName,
   async (job) => {
-    const { name } = job.data;
+    const { name } = job;
 
+    logger.info("Job received in Password Queue", { meta: job.data });
     try {
       if (name === sendPasswordResetJobName) {
         const { email, name, token } = job.data;
 
-        await sendPasswordResetEmail(email, name, token);
+        const res = await sendPasswordResetEmail(email, name, token);
+        logger.info(res);
       } else if (name === sendAccountConfirmationJobName) {
         const { email, name, token, code } = job.data;
         // Send account confirmation email
