@@ -8,25 +8,30 @@ import {passwordQueueName, sendAccountConfirmationJobName, sendPasswordResetJobN
 import sendPasswordResetEmail from "../services/sendPasswordReset";
 import sendAccountConfirmationEmail from "../services/sendAccountConfirmationEmail";
 import deadLetterQueue from "../queues/deadLetterQueue";
+import redisConfig from "../config/redisConfig";
 
-const passwordQueueWorker = new Worker(passwordQueueName, async (job) => {
-  const { name } = job.data;
+const passwordQueueWorker = new Worker(
+  passwordQueueName,
+  async (job) => {
+    const { name } = job.data;
 
-  try {
-    if (name === sendPasswoxrdResetJobName) {
-      const { email, name, token } = job.data;
+    try {
+      if (name === sendPasswordResetJobName) {
+        const { email, name, token } = job.data;
 
-      await sendPasswordResetEmail(email, name, token);
-    } else if (name === sendAccountConfirmationJobName) {
-      const { email, name, token, code } = job.data;
-      // Send account confirmation email
+        await sendPasswordResetEmail(email, name, token);
+      } else if (name === sendAccountConfirmationJobName) {
+        const { email, name, token, code } = job.data;
+        // Send account confirmation email
 
-      await sendAccountConfirmationEmail(email, name, token, code);
+        await sendAccountConfirmationEmail(email, name, token, code);
+      }
+    } catch (error) {
+      logger.error(`Error processing job ${job.id} with ${job.name} property:`, error);
     }
-  } catch (error) {
-    logger.error(`Error processing job ${job.id} with ${job.name} property:`, error);
-  }
-});
+  },
+  { connection: redisConfig }
+);
 
 passwordQueueWorker.on("completed", (job) => {
   logger.info(`Job ${job.data.name} with job id ${job.data.id} successful sent to ${job.data.email}`);
@@ -55,4 +60,4 @@ passwordQueueWorker.on("failed", async (job, err) => {
   }
 });
 
-export default generalQueueWorker;
+export default passwordQueueWorker;

@@ -9,26 +9,31 @@ import logger from "../utils/logger";
 import sendAdminNotification from "../services/sendAdminNotification";
 import {AppConfig} from "../config";
 import {deadLetterQueueName} from "../constant";
+import redisConfig from "../config/redisConfig";
 
-const deadLetterQueueWorker = new Worker(deadLetterQueueName, async (job) => {
-  const { name } = job.data;
+const deadLetterQueueWorker = new Worker(
+  deadLetterQueueName,
+  async (job) => {
+    const { name } = job.data;
 
-  try {
-    if (name === "sendAccountConfirmationEmail") {
-      const { email, name, token, code } = job.data;
-      // Send account confirmation email
-      await sendAccountConfirmationEmail(email, name, token, code);
-    } else if (name === "sendWelcomeEmail") {
-      const { email, name } = job.data;
-      // Send welcome email
-      await sendWelcomeEmail(email, name);
-    } else {
-      logger.warn(`Unknown job name: ${name}`);
+    try {
+      if (name === "sendAccountConfirmationEmail") {
+        const { email, name, token, code } = job.data;
+        // Send account confirmation email
+        await sendAccountConfirmationEmail(email, name, token, code);
+      } else if (name === "sendWelcomeEmail") {
+        const { email, name } = job.data;
+        // Send welcome email
+        await sendWelcomeEmail(email, name);
+      } else {
+        logger.warn(`Unknown job name: ${name}`);
+      }
+    } catch (error) {
+      logger.error(`Error processing job ${job.id} with name ${name}:`, error);
     }
-  } catch (error) {
-    logger.error(`Error processing job ${job.id} with name ${name}:`, error);
-  }
-});
+  },
+  { connection: redisConfig }
+);
 
 deadLetterQueueWorker.on("completed", (job) => {
   logger.info(`Job ${job.data.name} with job id ${job.id} successfully sent to ${job.data.email}`);

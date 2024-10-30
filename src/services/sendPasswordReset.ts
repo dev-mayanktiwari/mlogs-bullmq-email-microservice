@@ -80,7 +80,7 @@ const sendPasswordResetEmail = async (to: string, name: string, token: string) =
                 Reset Password
             </a>
             <p>If the button doesn't work, you can also copy and paste this link into your browser:</p>
-            <p>${process.env.FRONTEND_URL}/reset-password/${token}?code=${code}</p>
+            <p>${process.env.FRONTEND_URL}/reset-password/${token}</p>
             <p>If you didn't request a password reset, please disregard this email.</p>
             <p>Best regards,<br>The MLOGS Team</p>
         </div>

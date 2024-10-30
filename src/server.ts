@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-misused-promises */
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import generalQueueWorker from "./workers/generalQueueWorker";
 import passwordQueueWorker from "./workers/passwordQueueWorker";
 import deadLetterQueueWorker from "./workers/deadLetterQueueWorker";
@@ -14,7 +14,7 @@ import logger from "./utils/logger";
     ];
 
     workers.forEach(({ worker, name }) => {
-      worker.on("error", (error: never) => {
+      worker.on("error", (error) => {
         logger.error(`${name} encountered an error`, { meta: { error } });
       });
       logger.info(`${name} started successfully`);

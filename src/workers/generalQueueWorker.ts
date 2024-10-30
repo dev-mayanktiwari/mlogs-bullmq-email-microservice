@@ -7,25 +7,30 @@ import logger from "../utils/logger";
 import deadLetterQueue from "../queues/deadLetterQueue";
 import {generalQueueName, sendAccountConfirmationJobName, sendWelcomeEmailJobName} from "../constant";
 import sendAccountConfirmationEmail from "../services/sendAccountConfirmationEmail";
+import redisConfig from "../config/redisConfig";
 
-const generalQueueWorker = new Worker(generalQueueName, async (job) => {
-  const { name } = job.data;
+const generalQueueWorker = new Worker(
+  generalQueueName,
+  async (job) => {
+    const { name } = job.data;
 
-  try {
-    if (name === sendAccountConfirmationJobName) {
-      const { email, name, token, code } = job.data;
-      // Send account confirmation email
+    try {
+      if (name === sendAccountConfirmationJobName) {
+        const { email, name, token, code } = job.data;
+        // Send account confirmation email
 
-      await sendAccountConfirmationEmail(email, name, token, code);
-    } else if (name === sendWelcomeEmailJobName) {
-      const { email, name } = job.data;
-      // Send welcome email
-      await sendWelcomeEmail(email, name);
+        await sendAccountConfirmationEmail(email, name, token, code);
+      } else if (name === sendWelcomeEmailJobName) {
+        const { email, name } = job.data;
+        // Send welcome email
+        await sendWelcomeEmail(email, name);
+      }
+    } catch (error) {
+      logger.error(`Error processing job ${job.id} with ${job.name} property:`, error);
     }
-  } catch (error) {
-    logger.error(`Error processing job ${job.id} with ${job.name} property:`, error);
-  }
-});
+  },
+  { connection: redisConfig }
+);
 
 generalQueueWorker.on("completed", (job) => {
   logger.info(`Job ${job.data.name} with job id ${job.data.id} successful sent to ${job.data.email}`);
