@@ -1,0 +1,59 @@
+{
+  "name": "production-grade-backend",
+  "version": "1.0.0",
+  "description": "Production grade backend repo, it is monolithic",
+  "main": "index.js",
+  "scripts": {
+    "dist": "npx tsc",
+    "dev": "cross-env NODE_ENV=development nodemon src/server.ts",
+    "start": "cross-env NODE_ENV=production node dist/server.js",
+    "lint": "eslint",
+    "lint:fix": "eslint  --fix",
+    "format:check": "prettier --check .",
+    "format:fix": "prettier --fix .",
+    "prepare": "husky"
+  },
+  "keywords": [
+    "production",
+    "backend",
+    "deployment",
+    "scalable",
+    "futureproof"
+  ],
+  "author": "mayank tiwari",
+  "license": "ISC",
+  "lint-staged": {
+    "*.ts": [
+      "npm run lint:fix",
+      "npm run format:fix"
+    ]
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^19.5.0",
+    "@commitlint/config-conventional": "^19.5.0",
+    "@eslint/js": "^9.12.0",
+    "@types/eslint__js": "^8.42.3",
+    "@types/node": "^22.7.5",
+    "@types/nodemailer": "^6.4.16",
+    "@types/source-map-support": "^0.5.10",
+    "eslint": "^9.12.0",
+    "eslint-config-prettier": "^9.1.0",
+    "husky": "^9.1.6",
+    "lint-staged": "^15.2.10",
+    "nodemon": "^3.1.7",
+    "prettier": "3.3.3",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.3",
+    "typescript-eslint": "^8.9.0"
+  },
+  "dependencies": {
+    "bullmq": "^5.21.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "moment": "^2.30.1",
+    "nodemailer": "^6.9.15",
+    "source-map-support": "^0.5.21",
+    "winston": "^3.15.0",
+    "winston-mongodb": "^6.0.0"
+  }
+}
