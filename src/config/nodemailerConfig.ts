@@ -1,26 +1,26 @@
-import { AppConfig } from ".";
 import nodemailer from "nodemailer";
+import SMTPTransport from "nodemailer/lib/smtp-transport";
+import { AppConfig } from ".";
 import logger from "../utils/logger";
 
 const MAILER_PORT = Number(AppConfig.get("MAILER_PORT"));
 
 const transporter = nodemailer.createTransport({
+  host: "smtp.gmail.com",
   service: "gmail",
   port: MAILER_PORT,
-  secure: MAILER_PORT === 465,
+  secure: MAILER_PORT === 465, // true for 465, false for other ports like 587
   auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS
+    user: AppConfig.get("EMAIL_USER"),
+    pass: AppConfig.get("EMAIL_PASS")
   }
-});
+} as SMTPTransport.Options);
 
-// Verify connection configuration and log a success message
-transporter.verify((error) => {
+transporter.verify((error, success) => {
   if (error) {
-    logger.error("Nodemailer setup failed:", { meta: { error } });
+    logger.error("Error setting up Nodemailer:", error);
   } else {
-    logger.info("Nodemailer setup successful");
+    logger.info("Nodemailer setup successful and ready to send emails", { meta: success });
   }
 });
-
 export default transporter;

@@ -6,3 +6,4 @@ export const sendAccountConfirmationJobName = "sendAccountConfirmationEmail";
 export const sendWelcomeEmailJobName = "sendWelcomeEmail";
 export const sendPasswordResetJobName = "sendPasswordResetEmail";
 export const sendPasswordResetSuccessfullyJobName = "sendPasswordResetSuccessful";
+export const sendPasswordChangedJobName = "sendPasswordChangedMail";

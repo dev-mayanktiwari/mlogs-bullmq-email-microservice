@@ -2,14 +2,22 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import {Worker} from "bullmq";
+import { Worker } from "bullmq";
 import sendAccountConfirmationEmail from "../services/sendAccountConfirmationEmail";
 import sendWelcomeEmail from "../services/sendWelcomeEmail";
 import logger from "../utils/logger";
 import sendAdminNotification from "../services/sendAdminNotification";
-import {AppConfig} from "../config";
-import {deadLetterQueueName} from "../constant";
+import { AppConfig } from "../config";
+import {
+  deadLetterQueueName,
+  sendAccountConfirmationJobName,
+  sendPasswordChangedJobName,
+  sendPasswordResetJobName,
+  sendWelcomeEmailJobName
+} from "../constant";
 import redisConfig from "../config/redisConfig";
+import sendPasswordChangedEmail from "../services/sendPasswordChangedEmail";
+import sendPasswordResetEmail from "../services/sendPasswordReset";
 
 const deadLetterQueueWorker = new Worker(
   deadLetterQueueName,
@@ -17,14 +25,20 @@ const deadLetterQueueWorker = new Worker(
     const { name } = job;
     logger.info("Job received in Dead Letter Queue", { meta: job.data });
     try {
-      if (name === "sendAccountConfirmationEmail") {
+      if (name === sendAccountConfirmationJobName) {
         const { email, name, token, code } = job.data;
         // Send account confirmation email
         await sendAccountConfirmationEmail(email, name, token, code);
-      } else if (name === "sendWelcomeEmail") {
+      } else if (name === sendWelcomeEmailJobName) {
         const { email, name } = job.data;
         // Send welcome email
         await sendWelcomeEmail(email, name);
+      } else if (name === sendPasswordResetJobName) {
+        const { email, name, token } = job.data;
+        await sendPasswordResetEmail(email, name, token);
+      } else if (name === sendPasswordChangedJobName) {
+        const { email, name } = job.data;
+        await sendPasswordChangedEmail(email, name);
       } else {
         logger.warn(`Unknown job name: ${name}`);
       }

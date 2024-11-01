@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import {Worker} from "bullmq";
+import { Worker } from "bullmq";
 import sendWelcomeEmail from "../services/sendWelcomeEmail";
 import logger from "../utils/logger";
 import deadLetterQueue from "../queues/deadLetterQueue";
-import {generalQueueName, sendAccountConfirmationJobName, sendWelcomeEmailJobName} from "../constant";
-import sendAccountConfirmationEmail from "../services/sendAccountConfirmationEmail";
+import { generalQueueName, sendAccountConfirmationJobName, sendPasswordChangedJobName, sendWelcomeEmailJobName } from "../constant";
 import redisConfig from "../config/redisConfig";
+import sendPasswordChangedEmail from "../services/sendPasswordChangedEmail";
 
 const generalQueueWorker = new Worker(
   generalQueueName,
@@ -15,11 +15,11 @@ const generalQueueWorker = new Worker(
     const { name } = job;
     logger.info("Job received in General Queue", { meta: job.data });
     try {
-      if (name === sendAccountConfirmationJobName) {
-        const { email, name, token, code } = job.data;
+      if (name === sendPasswordChangedJobName) {
+        const { email, name } = job.data;
         // Send account confirmation email
 
-        await sendAccountConfirmationEmail(email, name, token, code);
+        await sendPasswordChangedEmail(name, email);
       } else if (name === sendWelcomeEmailJobName) {
         const { email, name } = job.data;
         // Send welcome email
@@ -39,12 +39,10 @@ generalQueueWorker.on("completed", (job) => {
 // eslint-disable-next-line @typescript-eslint/no-misused-promises
 generalQueueWorker.on("failed", async (job, err) => {
   if (job) {
-    if (job.name === sendAccountConfirmationJobName) {
-      await deadLetterQueue.add(sendAccountConfirmationJobName, {
+    if (job.name === sendPasswordChangedJobName) {
+      await deadLetterQueue.add(sendPasswordChangedJobName, {
         email: job.data.email,
-        name: job.data.name,
-        token: job.data.token,
-        code: job.data.code
+        name: job.data.name
       });
     }
     if (job.name === sendAccountConfirmationJobName) {
