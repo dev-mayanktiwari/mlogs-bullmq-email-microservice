@@ -23,7 +23,7 @@ const generalQueueWorker = new Worker(
       } else if (name === sendWelcomeEmailJobName) {
         const { email, name } = job.data;
         // Send welcome email
-        await sendWelcomeEmail(email, name);
+        await sendWelcomeEmail(name, email);
       }
     } catch (error) {
       logger.error(`Error processing job ${job.id} with ${job.name} property:`, error);
