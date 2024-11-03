@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import {Worker} from "bullmq";
+import { Worker } from "bullmq";
 
 import logger from "../utils/logger";
-import {passwordQueueName, sendAccountConfirmationJobName, sendPasswordResetJobName} from "../constant";
+import { passwordQueueName, sendAccountConfirmationJobName, sendPasswordResetJobName } from "../constant";
 import sendPasswordResetEmail from "../services/sendPasswordReset";
 import sendAccountConfirmationEmail from "../services/sendAccountConfirmationEmail";
 import deadLetterQueue from "../queues/deadLetterQueue";

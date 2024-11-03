@@ -1,0 +1,23 @@
+version: '1.0'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      REDIS_HOST: ${REDIS_HOST}
+      REDIS_PORT: ${REDIS_PORT}
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+      EMAIL_USER: ${EMAIL_USER}
+      EMAIL_PASS:  ${EMAIL_PASS}
+      FRONTEND_URL: ${FRONTEND_URL}
+      ADMIN_EMAIL: ${ADMIN_EMAIL}
+      MAILER_PORT: ${MAILER_PORT}
+      ENV: ${ENV}
+    volumes:
+      - .:/usr/src/email-microservice
+    
+  
+
+

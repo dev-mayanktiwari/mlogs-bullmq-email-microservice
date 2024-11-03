@@ -1,6 +1,6 @@
 FROM node:alpine
 
-WORKDIR /usr/src/bullmq-email-microservice
+WORKDIR /usr/src/email-microservice
 
 COPY package*.json ./
 
