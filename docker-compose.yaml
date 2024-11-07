@@ -6,6 +6,7 @@ services:
       context: .
       dockerfile: Dockerfile
     environment:
+      TZ: "Asia/Kolkata"
       REDIS_HOST: ${REDIS_HOST}
       REDIS_PORT: ${REDIS_PORT}
       REDIS_PASSWORD: ${REDIS_PASSWORD}
@@ -16,7 +17,7 @@ services:
       MAILER_PORT: ${MAILER_PORT}
       ENV: ${ENV}
     volumes:
-      - .:/usr/src/email-microservice
+      - /etc/localtime:/etc/localtime:ro 
     
   
 

@@ -1,11 +1,27 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
+/* eslint-disable @typescript-eslint/no-floating-promises */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import generalQueueWorker from "./workers/generalQueueWorker";
 import passwordQueueWorker from "./workers/passwordQueueWorker";
 import deadLetterQueueWorker from "./workers/deadLetterQueueWorker";
 import logger from "./utils/logger";
+import mongoDbConnectService from "./services/mongoDbConnectService";
 
-(() => {
+
+
+(async () => {
   try {
+
+    const connection = await mongoDbConnectService.connect();
+    
+    logger.info("Connected to MongoDB", {
+      meta: {
+        host: connection.host,
+        port: connection.port,
+        name: connection.name
+      }
+    });
     // Initialize Workers
     const workers = [
       { worker: generalQueueWorker, name: "General Queue Worker" },
@@ -48,3 +64,5 @@ import logger from "./utils/logger";
     process.exit(1); // Exit with failure
   }
 })();
+
+

@@ -1,4 +1,6 @@
 {
-  "ext": ".ts",
-  "ignore": ["dist", "node_modules"]
+  "watch": ["src"],
+  "ext": "ts",
+  "ignore": ["dist", "node_modules"],
+  "exec": "ts-node ./src/server.ts"
 }

@@ -5,12 +5,12 @@ import util from "util";
 import moment from "moment";
 import path from "path";
 import "winston-mongodb";
-import {blue, green, magenta, red, yellow} from "colorette";
-import {AppConfig} from "../config";
-import {ConsoleTransportInstance, FileTransportInstance} from "winston/lib/winston/transports";
-import {createLogger, format, transports} from "winston";
+import { blue, green, magenta, red, yellow } from "colorette";
+import { AppConfig } from "../config";
+import { ConsoleTransportInstance, FileTransportInstance } from "winston/lib/winston/transports";
+import { createLogger, transports, format } from "winston";
 import * as sourceMapSupport from "source-map-support";
-import {MongoDBTransportInstance} from "winston-mongodb";
+import { MongoDBTransportInstance } from "winston-mongodb";
 
 sourceMapSupport.install();
 
@@ -67,15 +67,12 @@ const fileLogFormat = format.printf((info) => {
 });
 
 const consoleTransport = (): Array<ConsoleTransportInstance> => {
-  if (AppConfig.get("ENV") === "development") {
-    return [
-      new transports.Console({
-        level: "info",
-        format: format.combine(format.timestamp(), consoleLogFormat)
-      })
-    ];
-  }
-  return [];
+  return [
+    new transports.Console({
+      level: "info",
+      format: format.combine(format.timestamp(), consoleLogFormat)
+    })
+  ];
 };
 
 const mongoTransport = (): Array<MongoDBTransportInstance> => {
@@ -83,7 +80,7 @@ const mongoTransport = (): Array<MongoDBTransportInstance> => {
     return [
       new transports.MongoDB({
         level: "info",
-        db: AppConfig.get("DATABASE_URL") as string,
+        db: AppConfig.get("MONGO_URL") as string,
         expireAfterSeconds: 60 * 60 * 24 * 7 // 7 days
       })
     ];
@@ -107,3 +104,4 @@ export default createLogger({
   },
   transports: [...fileTransport(), ...consoleTransport(), ...mongoTransport()]
 });
+
