@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/no-floating-promises */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+ 
+ 
 import generalQueueWorker from "./workers/generalQueueWorker";
 import passwordQueueWorker from "./workers/passwordQueueWorker";
 import deadLetterQueueWorker from "./workers/deadLetterQueueWorker";
