@@ -1,4 +1,4 @@
-# MLOGS: Custom Blog Application for Everyone
+# MLOGS Email Microservice
 
 - [Project Overview](#project-overview)
 - [Getting Started](#getting-started)
