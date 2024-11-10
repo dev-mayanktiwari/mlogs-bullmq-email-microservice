@@ -6,8 +6,8 @@ import logger from "../utils/logger";
 const MAILER_PORT = Number(AppConfig.get("MAILER_PORT"));
 
 const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  service: "gmail",
+  host: AppConfig.get("MAILER_HOST"),
+  service: AppConfig.get("MAILER_SERVICE"),
   port: MAILER_PORT,
   secure: MAILER_PORT === 465, // true for 465, false for other ports like 587
   auth: {
