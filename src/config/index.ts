@@ -2,7 +2,21 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-type ConfigKeys = "DATABASE_URL" | "EMAIL_USER" | "EMAIL_PASS" | "FRONTEND_URL" | "ADMIN_EMAIL" | "ENV" | "MAILER_PORT" | "REDIS_URL" | "REDIS_PASSWORD" | "REDIS_HOST" | "REDIS_PORT" | "MONGO_URL";
+type ConfigKeys =
+  | "DATABASE_URL"
+  | "EMAIL_USER"
+  | "EMAIL_PASS"
+  | "FRONTEND_URL"
+  | "ADMIN_EMAIL"
+  | "ENV"
+  | "MAILER_PORT"
+  | "REDIS_URL"
+  | "REDIS_PASSWORD"
+  | "REDIS_HOST"
+  | "REDIS_PORT"
+  | "MONGO_URL"
+  | "MAILER_HOST"
+  | "MAILER_SERVICE";
 
 const _config: Record<ConfigKeys, string | undefined> = {
   EMAIL_USER: process.env.EMAIL_USER,
@@ -16,7 +30,9 @@ const _config: Record<ConfigKeys, string | undefined> = {
   REDIS_PASSWORD: process.env.REDIS_PASSWORD,
   REDIS_HOST: process.env.REDIS_HOST,
   REDIS_PORT: process.env.REDIS_PORT,
-  MONGO_URL: process.env.MONGO_URL
+  MONGO_URL: process.env.MONGO_URL,
+  MAILER_HOST: process.env.MAILER_HOST,
+  MAILER_SERVICE: process.env.MAILER_SERVICE
 };
 
 export const AppConfig = {
