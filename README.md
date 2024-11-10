@@ -1,6 +1,6 @@
 # MLOGS Email Microservice
 
-- [Project Overview](#project-overview)
+- [Service Overview](#service-overview)
 - [Getting Started](#getting-started)
 - [Dependency Graph](#dependency-graph)
 - [Development](#development)
