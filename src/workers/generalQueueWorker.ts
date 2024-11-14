@@ -5,9 +5,10 @@ import { Worker } from "bullmq";
 import sendWelcomeEmail from "../services/sendWelcomeEmail";
 import logger from "../utils/logger";
 import deadLetterQueue from "../queues/deadLetterQueue";
-import { generalQueueName, sendAccountConfirmationJobName, sendPasswordChangedJobName, sendWelcomeEmailJobName } from "../constant";
+import { generalQueueName, sendAccountConfirmationJobName, sendBlogPostJobName, sendPasswordChangedJobName, sendWelcomeEmailJobName } from "../constant";
 import redisConfig from "../config/redisConfig";
 import sendPasswordChangedEmail from "../services/sendPasswordChangedEmail";
+import sendBlogPostEmail from "../services/sendBlogPostEmail";
 
 const generalQueueWorker = new Worker(
   generalQueueName,
@@ -24,6 +25,10 @@ const generalQueueWorker = new Worker(
         const { email, name } = job.data;
         // Send welcome email
         await sendWelcomeEmail(name, email);
+      } else if (name === sendBlogPostJobName) {
+        const { email, blogId, blogTitle, blogHeadline } = job.data;
+        // Send blog post email
+        await sendBlogPostEmail(email, blogId, blogTitle, blogHeadline);
       }
     } catch (error) {
       logger.error(`Error processing job ${job.id} with ${job.name} property:`, error);
