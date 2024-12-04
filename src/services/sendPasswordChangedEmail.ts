@@ -1,5 +1,7 @@
 import transporter from "../config/nodemailerConfig";
 import logger from "../utils/logger";
+import dotenv from "dotenv";
+dotenv.config();
 
 const sendPasswordChangedEmail = async (name: string, to: string) => {
   try {
@@ -88,3 +90,4 @@ const sendPasswordChangedEmail = async (name: string, to: string) => {
 };
 
 export default sendPasswordChangedEmail;
+

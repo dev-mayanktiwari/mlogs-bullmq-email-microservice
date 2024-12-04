@@ -1,5 +1,7 @@
 import transporter from "../config/nodemailerConfig";
 import logger from "../utils/logger";
+import dotenv from "dotenv";
+dotenv.config();
 
 const sendBlogPostEmail = async (emails: string[], blogId: string, blogTitle: string, blogHeadline: string) => {
   try {
@@ -97,7 +99,7 @@ const sendBlogPostEmail = async (emails: string[], blogId: string, blogTitle: st
                     
                     <p>A new blog post has just been published that might interest you!</p>
                     
-                    <a href="http://${process.env.FRONTEND_URL}/user/blog/${blogId}/blog" class="button">
+                    <a href="http://${process.env.FRONTEND_URL}/post/${blogId}" class="button">
                         Read Full Post
                     </a>
                     
@@ -106,11 +108,6 @@ const sendBlogPostEmail = async (emails: string[], blogId: string, blogTitle: st
                 <div class="footer">
                     <p>&copy; 2024 MLOGS. All rights reserved.</p>
                     <p>Delhi, India</p>
-                    <p>
-                        <a href="http://${process.env.FRONTEND_URL}/settings/notifications" class="unsubscribe">
-                            Update your notification preferences
-                        </a>
-                    </p>
                 </div>
             </div>
         </body>

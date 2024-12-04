@@ -1,5 +1,7 @@
 import transporter from "../config/nodemailerConfig";
 import logger from "../utils/logger";
+import dotenv from "dotenv";
+dotenv.config();
 
 const sendWelcomeEmail = async (name: string, email: string) => {
   try {

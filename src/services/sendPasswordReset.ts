@@ -1,5 +1,7 @@
 import transporter from "../config/nodemailerConfig";
 import logger from "../utils/logger";
+import dotenv from "dotenv";
+dotenv.config();
 
 const sendPasswordResetEmail = async (to: string, name: string, token: string) => {
   try {

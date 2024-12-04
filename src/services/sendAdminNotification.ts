@@ -1,5 +1,7 @@
 import transporter from "../config/nodemailerConfig";
 import logger from "../utils/logger";
+import dotenv from "dotenv";
+dotenv.config();
 
 const sendAdminNotification = async (to: string, failedEmail: string, errorMessage: string) => {
   try {

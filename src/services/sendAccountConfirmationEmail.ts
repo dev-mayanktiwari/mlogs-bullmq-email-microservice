@@ -1,5 +1,7 @@
 import transporter from "../config/nodemailerConfig";
 import logger from "../utils/logger";
+import dotenv from "dotenv";
+dotenv.config();
 
 const sendAccountConfirmationEmail = async (to: string, name: string, token: string, code: string) => {
   try {
@@ -77,7 +79,7 @@ const sendAccountConfirmationEmail = async (to: string, name: string, token: str
                         We're excited to have you on board! Please confirm your account by
                         clicking the button below:
                     </p>
-                    <a href="http://${process.env.FRONTEND_URL}/confirmation/${token}?code=${code}" class="button">
+                    <a href="http://${process.env.FRONTEND_URL}/verify/${token}?code=${code}" class="button">
                         Confirm Account
                     </a>
                     <p>If the button doesn't work, you can also copy and paste this link into your browser:</p>

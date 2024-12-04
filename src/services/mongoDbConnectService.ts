@@ -1,6 +1,3 @@
- 
- 
- 
 import mongoose from "mongoose";
 import { AppConfig } from "../config";
 
