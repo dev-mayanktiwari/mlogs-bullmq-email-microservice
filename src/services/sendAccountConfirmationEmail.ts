@@ -83,7 +83,7 @@ const sendAccountConfirmationEmail = async (to: string, name: string, token: str
                         Confirm Account
                     </a>
                     <p>If the button doesn't work, you can also copy and paste this link into your browser:</p>
-                    <p>${process.env.FRONTEND_URL}/confirmation/${token}?code=${code}</p>
+                    <p>${process.env.FRONTEND_URL}/verify/${token}?code=${code}</p>
                     <p>If you didn't create an account, please disregard this email.</p>
                     <p>Best regards,<br>The MLOGS Team</p>
                 </div>
