@@ -78,11 +78,11 @@ const sendPasswordResetEmail = async (to: string, name: string, token: string) =
             <p>
                 We received a request to reset your password. Please click the button below within 15 minutes to proceed:
             </p>
-            <a href="http://${process.env.FRONTEND_URL}/reset-password/${token}" class="button">
+            <a href="https://${process.env.FRONTEND_URL}/reset-password/${token}" class="button">
                 Reset Password
             </a>
             <p>If the button doesn't work, you can also copy and paste this link into your browser:</p>
-            <p>${process.env.FRONTEND_URL}/reset-password/${token}</p>
+            <p>https://${process.env.FRONTEND_URL}/reset-password/${token}</p>
             <p>If you didn't request a password reset, please disregard this email.</p>
             <p>Best regards,<br>The MLOGS Team</p>
         </div>

@@ -99,7 +99,7 @@ const sendBlogPostEmail = async (emails: string[], blogId: string, blogTitle: st
                     
                     <p>A new blog post has just been published that might interest you!</p>
                     
-                    <a href="http://${process.env.FRONTEND_URL}/post/${blogId}" class="button">
+                    <a href="https://${process.env.FRONTEND_URL}/post/${blogId}" class="button">
                         Read Full Post
                     </a>
                     
