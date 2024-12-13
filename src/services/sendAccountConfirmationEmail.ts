@@ -79,7 +79,7 @@ const sendAccountConfirmationEmail = async (to: string, name: string, token: str
                         We're excited to have you on board! Please confirm your account by
                         clicking the button below:
                     </p>
-                    <a href="http://${process.env.FRONTEND_URL}/verify/${token}?code=${code}" class="button">
+                    <a href="${process.env.FRONTEND_URL}/verify/${token}?code=${code}" class="button">
                         Confirm Account
                     </a>
                     <p>If the button doesn't work, you can also copy and paste this link into your browser:</p>
